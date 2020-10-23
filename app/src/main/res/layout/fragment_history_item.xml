@@ -1,13 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="sheridan.kananid.assignment2.HistoryFragment"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".ui.history.HistoryFragment"
-    tools:listitem="@layout/fragment_history" />
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="sheridan.kananid.assignment2.database.Envelope"/>
+        <import type="sheridan.kananid.assignment2.util.DateTimeStamp"/>
+        <variable
+            name="envelope"
+            type="Envelope" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:layout_marginTop="@dimen/gap1"
+            android:layout_marginStart="@dimen/gap2"
+            android:layout_marginBottom="@dimen/gap1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="3." />
+
+        <TextView
+            android:id="@+id/dieOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap1"
+            app:layout_constraintStart_toEndOf="@id/count"
+            app:layout_constraintBaseline_toBaselineOf="@id/count"
+            android:text="@{envelope.dieOne}"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/dieTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap0"
+            app:layout_constraintStart_toEndOf="@id/dieOne"
+            app:layout_constraintBaseline_toBaselineOf="@id/dieOne"
+            android:text="@{envelope.dieTwo}"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/dieThree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap0"
+            app:layout_constraintStart_toEndOf="@id/dieTwo"
+            app:layout_constraintBaseline_toBaselineOf="@id/dieTwo"
+            android:text="@{envelope.dieThree}"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+        <TextView
+            android:id="@+id/dieTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap0"
+            app:layout_constraintStart_toEndOf="@id/dieThree"
+            app:layout_constraintBaseline_toBaselineOf="@id/dieThree"
+            android:text="@{envelope.dieTotal}"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/gap0"
+            android:layout_marginBottom="@dimen/gap1"
+            app:layout_constraintTop_toBottomOf="@id/dieOne"
+            app:layout_constraintStart_toStartOf="@id/dieOne"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@{DateTimeStamp.formatDateTime(envelope.timeStamp)}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
