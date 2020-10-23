@@ -8,7 +8,7 @@ import sheridan.kananid.assignment2.R
 import sheridan.kananid.assignment2.database.Envelope
 import sheridan.kananid.assignment2.databinding.FragmentHistoryItemBinding
 import androidx.navigation.findNavController
-import sheridan.kananid.assignment2.ui.history.dummy.DummyContent.DummyItem
+
 
 /**
  * [RecyclerView.Adapter] that can display a [DummyItem].

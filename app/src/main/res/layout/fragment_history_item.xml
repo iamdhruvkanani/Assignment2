@@ -39,13 +39,33 @@
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
+            android:id="@+id/add1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap1"
+            app:layout_constraintStart_toEndOf="@id/dieOne"
+            app:layout_constraintBaseline_toBaselineOf="@id/dieOne"
+            android:text="+"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
             android:id="@+id/dieTwo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/gap0"
-            app:layout_constraintStart_toEndOf="@id/dieOne"
-            app:layout_constraintBaseline_toBaselineOf="@id/dieOne"
+            app:layout_constraintStart_toEndOf="@id/add1"
+            app:layout_constraintBaseline_toBaselineOf="@id/add1"
             android:text="@{envelope.dieTwo}"
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/add2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap1"
+            app:layout_constraintStart_toEndOf="@id/dieTwo"
+            app:layout_constraintBaseline_toBaselineOf="@id/dieTwo"
+            android:text="+"
             android:textAppearance="?attr/textAppearanceListItem"/>
 
         <TextView
@@ -53,19 +73,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/gap0"
-            app:layout_constraintStart_toEndOf="@id/dieTwo"
-            app:layout_constraintBaseline_toBaselineOf="@id/dieTwo"
+            app:layout_constraintStart_toEndOf="@id/add2"
+            app:layout_constraintBaseline_toBaselineOf="@id/add2"
             android:text="@{envelope.dieThree}"
             android:textAppearance="?attr/textAppearanceListItem"/>
+
+        <TextView
+            android:id="@+id/equal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/gap1"
+            app:layout_constraintStart_toEndOf="@id/dieThree"
+            app:layout_constraintBaseline_toBaselineOf="@id/dieThree"
+            android:text="="
+            android:textAppearance="?attr/textAppearanceListItem"/>
+
         <TextView
             android:id="@+id/dieTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/gap0"
-            app:layout_constraintStart_toEndOf="@id/dieThree"
-            app:layout_constraintBaseline_toBaselineOf="@id/dieThree"
+            app:layout_constraintStart_toEndOf="@id/equal"
+            app:layout_constraintBaseline_toBaselineOf="@id/equal"
             android:text="@{envelope.dieTotal}"
             android:textAppearance="?attr/textAppearanceListItem"/>
+
+
 
         <TextView
             android:id="@+id/date_time"

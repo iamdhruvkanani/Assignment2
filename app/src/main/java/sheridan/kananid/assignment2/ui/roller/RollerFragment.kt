@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_roller.*
-import sheridan.kananid.assignment2.Die
 import sheridan.kananid.assignment2.MainActivity
 import sheridan.kananid.assignment2.R
 import sheridan.kananid.assignment2.database.Envelope
