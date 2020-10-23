@@ -3,26 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
-
+    app:startDestination="@id/roller_fragment">
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/roller_fragment"
         android:name="sheridan.kananid.assignment2.ui.roller.RollerFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/roller_fragment_label"
         tools:layout="@layout/fragment_roller">
 
-        <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/confirmation_dialog"
+        android:name="sheridan.kananid.assignment2.dialogs.ConfirmationDialog"
+        android:label="ConfirmationDialog" >
+        <argument
+            android:name="message"
+            app:argType="string" />
+        <argument
+            android:name="requestCode"
+            app:argType="integer" />
+    </dialog>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="sheridan.kananid.assignment2.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
-
+        android:id="@+id/settings_fragment"
+        android:name="sheridan.kananid.assignment2.ui.settings.SettingsFragment"
+        android:label="@string/settings_fragment_label" />
+    <dialog
+        android:id="@+id/about_dialog"
+        android:name="sheridan.kananid.assignment2.dialogs.AboutDialog"
+        android:label="AboutFragment" />
+    <fragment
+        android:id="@+id/history_fragment"
+        android:name="sheridan.kananid.assignment2.ui.history.HistoryFragment"
+        android:label="@string/history_fragment_label"
+        tools:layout="@layout/fragment_history" >
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_history_to_confirmation"
+            app:destination="@id/confirmation_dialog" />
+        <action
+            android:id="@+id/action_history_fragment_to_confirmation_dialog"
+            app:destination="@id/confirmation_dialog" />
     </fragment>
+    <action
+        android:id="@+id/action_global_to_history"
+        app:destination="@id/history_fragment" />
+    <action android:id="@+id/action_global_to_about"
+        app:destination="@id/about_dialog" />
 </navigation>
