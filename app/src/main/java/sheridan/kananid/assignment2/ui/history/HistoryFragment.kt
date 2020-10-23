@@ -1,62 +1,110 @@
 package sheridan.kananid.assignment2.ui.history
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import sheridan.kananid.assignment2.R
-import sheridan.kananid.assignment2.dummy.DummyContent
+import sheridan.kananid.assignment2.database.Envelope
+import sheridan.kananid.assignment2.databinding.FragmentHistoryBinding
+import sheridan.kananid.assignment2.dialogs.ConfirmationDialog
+import sheridan.kananid.assignment2.ui.settings.RollerSettings
 
 /**
  * A fragment representing a list of Items.
  */
 class HistoryFragment : Fragment() {
 
-    private var columnCount = 1
+    companion object{
+        const val CONFIRM_CLEAR: Int = 2
+    }
+
+    private lateinit var binding: FragmentHistoryBinding
+    private lateinit var adapter: HistoryItemRecyclerViewAdapter
+
+    private val viewModel: HistoryViewModel by viewModels()
+
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
+        setHasOptionsMenu(true)
     }
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_history_item, container, false)
+        // Inflate the layout for this fragment
+        binding = FragmentHistoryBinding.inflate(inflater, container, false)
 
-        // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = HistoryItemRecyclerViewAdapter(DummyContent.ITEMS)
-            }
+        // make the adapter
+        adapter = HistoryItemRecyclerViewAdapter(requireContext())
+
+        with(binding){
+            val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            recyclerView.addItemDecoration(divider)
+            recyclerView.adapter = adapter
         }
-        return view
-    }
 
-    companion object {
+        viewModel.history.observe(viewLifecycleOwner){ refreshHistory(it) }
 
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
+        navController = findNavController()
 
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            HistoryFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
+        // make the delete confirmation dialog work
+        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
+        savedStateHandle?.getLiveData<ConfirmationDialog.ConfirmationResult>(ConfirmationDialog.CONFIRMATION_RESULT)
+            ?.observe(viewLifecycleOwner) {
+                if(it.requestCode == CONFIRM_CLEAR && it.resultCode == Activity.RESULT_OK){
+                    clear()
                 }
             }
+
+        return binding.root
+
     }
+
+    private fun refreshHistory(list: List<Envelope>?) {
+        adapter.history = list
+        val count = list?.size ?: 0
+        binding.historyTotal.text =
+            resources.getQuantityString(R.plurals.history_total, count, count)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_history,menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+
+        return when(item.itemId){
+            R.id.action_clear -> {
+                val settings = RollerSettings(requireContext())
+                if(settings.confirmClear){
+                    val action = HistoryFragmentDirections.actionHistoryToConfirmation(
+                        getString(R.string.confirm_clear_message), CONFIRM_CLEAR)
+                    navController.navigate(action)
+                } else {
+                    clear()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+    private fun clear(){
+        viewModel.clear()
+    }
+
 }
