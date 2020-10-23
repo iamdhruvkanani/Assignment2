@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/FirstFragment"
-        android:name="sheridan.kananid.assignment2.FirstFragment"
+        android:name="sheridan.kananid.assignment2.ui.roller.RollerFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/fragment_roller">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
